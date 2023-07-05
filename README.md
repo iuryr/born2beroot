@@ -53,4 +53,20 @@ Notice that now the pri/log partition has a shorter size (exactly the 500MB that
 
 ![First partition set](ss02_first_partition_set_cropped.png)
 
+#### Encrypting the rest of the device
+To comply with the projects requirements we must now encrypt the rest of the device and, after that, create Volume Group and logical partitions. To encrypt the device, select the option `Configure encrypted volumes` -> `Yes` -> `Create encrypted volumes` and select `/sda/dev/`, which refers to the partition with the Free Space. Now we're done `Setting up the partition`.
 
+#### Creating Volume Group and logical partitions
+Now we have the following situation. Our (virtual) storage device has:
+- A primary partition of 500M
+- An encrypted partition of 31.7GB.
+
+We now have to separate this second partition into different **logical** partitions beloging to the same _Volume Group_. For this me must select the `Configure the Logical Volume Manager` option, then `Yes`. Next we have to create a `Create a Volume Group` and, for this project, we'll call it LVMGroup. Next, we have to identify which device will be part of this volume group we created. In this scenario, we must select only the encrypted device (it's likely called /dev/sda5) then `Yes`.
+
+Now we must create the logical partitions with the adequate sizes. The procedure is the same for all the logical volumes (root, home, srv, var, tmp, var-log and swap).
+
+- `Create Logical Volume` -> Select the LVMGroup -> Type the logical volume name (for example root) -> Type the logical volume size.
+
+After doing this _busywork_, our situation is the following: our harddrive is divided in two physical partitions: the primary and the other. The other is an encrypted partition that has 7 logical partitions (all of them are part of the LVGroup Volume Group). Se the image below:
+
+![HD partitioned but whithout mount points](ss03_partitions_wo_mounting_cropped.png)
