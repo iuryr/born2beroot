@@ -70,3 +70,17 @@ Now we must create the logical partitions with the adequate sizes. The procedure
 After doing this _busywork_, our situation is the following: our harddrive is divided in two physical partitions: the primary and the other. The other is an encrypted partition that has 7 logical partitions (all of them are part of the LVGroup Volume Group). Se the image below:
 
 ![HD partitioned but whithout mount points](ss03_partitions_wo_mounting_cropped.png)
+
+#### Mounting partitions
+Now that our 'hardware' part is set, we need to teach the OS how to navigate to the relevant hardware parts. I understand that this is what mountpoints are for (but i need to study this better).
+
+To set the mountpoints, we need to select the physical partition of the primary partition and each of the logical partitions. After selecting each option, we need to:
+-`Use as: ext4` (select the filesystem) and
+- select the mount point (accordingly)
+
+obs1.: for the logical partition var-log we need to manually type /var/log
+obs2.: for the swap partition, we select 'swap area' when choosing the `Use as` option
+
+We are now ready to `Finish partitioning and write changes to disk`. Check the image below.
+
+![just before writing to disk](ss04_before_writing_disk_cropped.png)
