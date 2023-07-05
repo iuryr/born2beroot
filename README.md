@@ -36,6 +36,21 @@ As of now, our (virtual) hard drive is completely empty. We have to configure it
 For pedagogical reasons, we'll not use the guidance provided by the installer. We'll do it manually.
 
 #### Select the block device that will be partitioned
-First of all, we have to select the (virtual, in this case) storage device that will be partitioned. In our case, we have to select `SCSI3 (0,0,0) (sda) - 32.2 GB ATA VBOX HARDDISK`. After pressing Yes in the next window, we'll be presentedwith the following image:
+First of all, we have to select the (virtual, in this case) storage device that will be partitioned. In our case, we have to select `SCSI3 (0,0,0) (sda) - 32.2 GB ATA VBOX HARDDISK`. After pressing Yes in the next window, we'll be presented with the following image:
 
 ![Greenfield Partition](ss01_first_partition_cropped.png)
+
+What the image says is: the device `VBOX HARDDISK` has the partition pri/log with 32.2 GB of Free Space.
+
+Now we have to partition this pri/log partition adequately.
+
+#### First Partition (/boot)
+Pressing ENTER when the pri/log line is selected will present us with the option to `Create a new partition`. The first partition we'll create will be used to store the files that the VM will use to boot up. **Let's set 500MB to this. (500M in the selected field)**. After setting the size, we'll need to select the type of partition. **Select Primary**. This means that this partition will be _bootable_ (accessed by the BIOS or UEFI). **Location: beginning**
+
+Now the system knows that we have a 500MB partition. We need to provide a filesystem to this partition, as well as define a mountpoint. The filesystem will be ext4 and the mount point for this partition is **/boot**. Now we're `Done setting up this partition`.
+
+Notice that now the pri/log partition has a shorter size (exactly the 500MB that we allocated to the previous partition). See the picture below:
+
+![First partition set](ss02_first_partition_set_cropped.png)
+
+
