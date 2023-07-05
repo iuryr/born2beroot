@@ -32,3 +32,10 @@ The system prompts us the give a full name, user name and password for a normal 
 As of now, our (virtual) hard drive is completely empty. We have to configure it to have the format specified in the project. Consider the image below:
 
 ![Storage partition schema](cropped-lsblk.png).
+
+For pedagogical reasons, we'll not use the guidance provided by the installer. We'll do it manually.
+
+#### Select the block device that will be partitioned
+First of all, we have to select the (virtual, in this case) storage device that will be partitioned. In our case, we have to select `SCSI3 (0,0,0) (sda) - 32.2 GB ATA VBOX HARDDISK`. After pressing Yes in the next window, we'll be presentedwith the following image:
+
+![Greenfield Partition](ss01_first_partition_cropped.png)
