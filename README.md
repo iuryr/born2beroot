@@ -30,4 +30,4 @@ The system prompts us the give a full name, user name and password for a normal 
 
 ### 2.2 Partitioning the Hard drive
 As of now, our (virtual) hard drive is completely empty. We have to configure it to have the format specified in the project. Consider the image below:
-[Storage partition schema](cropped_lsblkg.png).
+[Storage partition schema](cropped_lsblk.png).
