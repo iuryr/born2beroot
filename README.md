@@ -79,7 +79,7 @@ After doing this _busywork_, our situation is the following: our harddrive is di
 Now that our 'hardware' part is set, we need to teach the OS how to navigate to the relevant hardware parts. I understand that this is what mountpoints are for (but i need to study this better).
 
 To set the mountpoints, we need to select the physical partition of the primary partition and each of the logical partitions. After selecting each option, we need to:
--`Use as: ext4` (select the filesystem) and
+- `Use as: ext4` (select the filesystem) and
 - select the mount point (accordingly)
 
 obs1.: for the logical partition var-log we need to manually type /var/log
