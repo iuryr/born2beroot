@@ -97,3 +97,27 @@ After some loading screens, you'll be prompted to select:
 - Sofware selection: select ONLY 'SSH server' and 'standard system utilities'
 - If you want to install GRUB on the primary device. SELECT YES. Then select /dev/sda.
 
+## 3. Setting up sudo policy and including first users
+Now that our Virtual Machine is ready, we need to config our system do comply with the other subject requirements. The first thing we'll do is install the program `sudo`.
+
+As of now, our system has two users: root and iusantos. iusantos cannot install packages or programs to other users (we'll use sudo for that, but we do not have sudo yet). **So, first of all, let's log as root.**
+
+After that, use the followings commands:
+- `apt update` so that the package manager can use the repositories listed in /etc/apt/sources.list to update information about packages.
+- `apt install sudo` so that the package manager can download and install the programa sudo.
+
+So now we have sudo installed. sudo uses basically two files to know how to behave: `/etc/sudo.conf` which deal of plugins (we will not use this file in this project) and `/etc/sudoers` which defines the policies used by the program. These are text files, but we must not edit them using simple text editors. We must use the program `visudo` (which will call a text editor) that will garantee no concurrent edits and will check syntax.
+
+### New policy file and its content
+Because the last line of our `/etc/sudoers` file is "@includedir /etc/sudoers.d", the sudo program will consider (in a lexical order) all files in this folder and apply policies set there. So, in order to preserve our original sudoers let's create a new file: use the command (as root) `visudo /etc/sudoers.d/00_b2br` to create and edit this new sudoers file.
+
+Now we implement the policies required by the project subject:
+- Setting secure path: `Defaults    secure_path="path from the subject"`
+- Limiting number of password tries: `Defaults  passwd_tries=3`
+- Custom message if user mess up password typing: `Defaults badpass_message="message"`
+- Custom message after authentatican fail: `Defaults    authfail_message="message"`
+- Enable input logging: `Defaults   log_input`
+- Enable output logging: 'Defaults  log_output`
+- Setting path to dir where logs will be stashed: `iolog_dir="/var/log/sudo"`. This command is necessary because default log dir is different than required by project subject. And if you do no use this command, you will have to created the directory before using sudo, in other case, an error will be thrown.
+- Setting logfile name: `Defaults   logfile="/var/log/sudo/sudo.log"`
+- Require terminal mode for sudo: `Defaults requiretty`
