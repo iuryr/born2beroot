@@ -121,3 +121,13 @@ Now we implement the policies required by the project subject:
 - Setting path to dir where logs will be stashed: `iolog_dir="/var/log/sudo"`. This command is necessary because default log dir is different than required by project subject. And if you do no use this command, you will have to created the directory before using sudo, in other case, an error will be thrown.
 - Setting logfile name: `Defaults   logfile="/var/log/sudo/sudo.log"`
 - Require terminal mode for sudo: `Defaults requiretty`
+
+### Inserting an user to sudo group
+Now that our sudo policy is read, let's put the user iusantos in the sudo group. To do that run the command (as root):
+- `adduser iusantos sudo`
+
+### Creating a new group and inserting an user there
+The project subject stipulates that the user with our login has to be in a group called `user42`. This group still does not exist, so we must create it. To do that, **as root** you should run the following command:
+- `addgroup user42`
+And to insert user iusantos there, run the following command:
+- `adduser iusantos user42`
