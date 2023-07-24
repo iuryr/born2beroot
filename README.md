@@ -189,3 +189,47 @@ In a general manner, the script just does two things: assigns to a variable the 
 To the script run properly, we'll need to install the following packages:
 - sysstat
 - net-tools
+
+## 9. (BONUS) Wordpress site
+One of the bonus of the project is to set a wordpress website using lighttpd webserver, MariaDB RDBMS and php. So, let us install each one of them.
+
+### 9.1 MariaDB
+To install MariaDB we'll use the usual way: `sudo apt-get install mariadb-server`. After installing the package, run the secure installation plugin: `sudo mariadb-secure-installation`.
+
+### 9.2 lighttpd
+To install lighttpd webserver, we'll go the usual way one more time: `sudo apt-get install lighttpd`
+
+### 9.3 PHP
+PHP is a scripting language that can be run by some webserver CGI (common gateway interface) before sending an html response. We'll need a specific version of php for our website to work: `sudo apt-get install php-cgi`
+
+### 9.4 Wordpress
+Wordpress can be downloaded to the /tmp directory and extracted with the following commands:
+- `cd /tmp && sudo wget https://wordpress.org/latest.tar.gz && sudo tar -xzvf latest.tar.gz`
+
+### 9.5 Making it work
+Allright, so we have everything we need installed. Check if the services we'll use are enabled and started (remember `sudo systemctl enable|start|status name_of_service`?
+
+First, you must know that werbserver usually handle http requests & responses through port 80. So we'll need to allow traffic in this port. For this use `sudo ufw allow 80`.
+Second, we'll need to tell our webserver how to handle requests that are contained in .php files. To do this, run the following command: `sudo lighty-enable-mod fastcgi` e `sudo ligty-enable-mod fastcgi-php`
+
+Now regarding MariaDB, we'll need to create an user and a database for wordpress. To do this, first, initialize Mariadb with the user you created during the secure installation process. In my case, the command goes like this: `mariadb -u admin -p` then type the password. Once you're in Mariadb interactively, create the user with the following command:
+`CREATE USER usuario@localhost IDENTIFIED BY 'senha';`
+Now create a database:
+`CREATE DATABASE wordpress_db;`
+And grant all privileges of this database to the user you created:
+`GRANT ALL PRIVILEGES ON wordpress_db.* TO 'usuario'@'localhost' IDENTIFIED BY 'senha';`
+
+Now we'll have to copy the contents of wordpress installation to the root directory of our webserver (the root directory that lighttpd uses is: /var/www/html). 
+
+Now, we'll have to rename wp-config-sample.hp to wp-config.php and change the following lines:
+```
+define( 'DB_NAME', 'wordpressdb' ); // Example MySQL database name
+define( 'DB_USER', 'usuario' ); // Example MySQL username
+define( 'DB_PASSWORD', 'senha' ); // Example MySQL password
+define( 'DB_HOST', 'localhost' ); // Example MySQL Database host
+
+```
+
+If everything is working, you should be able to use a browser to access a the machine's ip and log on to the wordpress plataform. Now you figure out a way to create your website 
+
+## 10. (BONUS) Other service - webmin
