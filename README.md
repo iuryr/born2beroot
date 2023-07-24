@@ -213,10 +213,15 @@ First, you must know that werbserver usually handle http requests & responses th
 Second, we'll need to tell our webserver how to handle requests that are contained in .php files. To do this, run the following command: `sudo lighty-enable-mod fastcgi` e `sudo ligty-enable-mod fastcgi-php`
 
 Now regarding MariaDB, we'll need to create an user and a database for wordpress. To do this, first, initialize Mariadb with the user you created during the secure installation process. In my case, the command goes like this: `mariadb -u admin -p` then type the password. Once you're in Mariadb interactively, create the user with the following command:
+
 `CREATE USER usuario@localhost IDENTIFIED BY 'senha';`
+
 Now create a database:
+
 `CREATE DATABASE wordpress_db;`
+
 And grant all privileges of this database to the user you created:
+
 `GRANT ALL PRIVILEGES ON wordpress_db.* TO 'usuario'@'localhost' IDENTIFIED BY 'senha';`
 
 Now we'll have to copy the contents of wordpress installation to the root directory of our webserver (the root directory that lighttpd uses is: /var/www/html). 
