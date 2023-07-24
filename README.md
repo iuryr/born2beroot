@@ -144,3 +144,12 @@ Next, to implement the projects' password complexity requirements, we'll have to
 
 In the line containing "password requisite pam_pwquality.so", we will add, *ON THE SAME LINE*, the following options: `minlen=10 lcredit=-1 ucredit=-1 dcredit=-1 maxrepeat=3 usercheck=1 difok=7 enforce_for_root`. Each of this option implements an specific subject requirement.
 
+## 6. Uncomplicated Firewall
+To install the solicited firewall, let's use the usual command: `sudo apt-get install ufw`.
+
+After installation, let us tell our system to always run ufw on startup and, also, to start it immediately:
+- `sudo systemctl enable ufw && sudo systemctl start ufw`
+
+To check if our commands work, you can use `sudo systemctl status ufw`.
+
+To tell ufw that all traffica is permitted via port 4242, we'll use the command: `sudo ufw allow 4242`. And to check the result, use `sudo ufw status`.
