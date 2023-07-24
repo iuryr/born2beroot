@@ -126,8 +126,21 @@ Now we implement the policies required by the project subject:
 Now that our sudo policy is read, let's put the user iusantos in the sudo group. To do that run the command (as root):
 - `adduser iusantos sudo`
 
-### Creating a new group and inserting an user there
+## 4. Creating a new group and inserting an user there
 The project subject stipulates that the user with our login has to be in a group called `user42`. This group still does not exist, so we must create it. To do that, **as root** you should run the following command:
 - `addgroup user42`
 And to insert user iusantos there, run the following command:
 - `adduser iusantos user42`
+
+## 5. Password Policy
+To implement the subject's required password policy we'll have to deal with two files and install a new Plugable Authentication Module.
+
+First of all, let's make some changes to the file /etc/login.defs. This file governs some configutations for the login package, including the age requirements. We'll have to modify the lines containing the following expressions:
+- `PASS_MAX_DAYS`
+- `PASS_MIN_DAYS`
+- `PASS_WARN_AGE`
+
+Next, to implement the projects' password complexity requirements, we'll have to install a new Plugable Authentication Module using apt. A PAM is a shared library that installed packages can use to implement certain security measures. So, let's install the pam module using `sudo apt-get install libpam-pwquality`. Open the file /etc/pam.d/common-password.
+
+In the line containing "password requisite pam_pwquality.so", we will add, *ON THE SAME LINE*, the following options: `minlen=10 lcredit=-1 ucredit=-1 dcredit=-1 maxrepeat=3 usercheck=1 difok=7 enforce_for_root`. Each of this option implements an specific subject requirement.
+
