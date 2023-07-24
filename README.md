@@ -180,3 +180,12 @@ total_seconds=$((minutes * 60))
 sleep $total_seconds
 source /bin/monitoring.sh | wall
 ```
+
+### 8.2 Monitoring.sh
+Notice that on section 8.1, our script, after delaying the adequate time, already calls a script monitoring.sh located at /bin and passes its output to the program wall. The contents of the monitoring.sh are contained in a file in this repository.
+
+In a general manner, the script just does two things: assigns to a variable the output of some computations and prints this variable adequately formated using the program printf.
+
+To the script run properly, we'll need to install the following packages:
+- sysstat
+- net-tools
