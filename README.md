@@ -153,3 +153,10 @@ After installation, let us tell our system to always run ufw on startup and, als
 To check if our commands work, you can use `sudo systemctl status ufw`.
 
 To tell ufw that all traffica is permitted via port 4242, we'll use the command: `sudo ufw allow 4242`. And to check the result, use `sudo ufw status`.
+
+## 7. Installing and setting SSH
+When we installed our OS in the virtual machine, we already installaed SSH along with the minimal requirements. If we did not do this, we could use apt to install it. The command would be `sudo apt-get install ssh`. As it is a service, we'll need to enable & start it, as we did with ufw. To do that use `sudo systemctl enable ssh && sudo systemctl start ssh`.
+
+The project's subject requires that SSH only operates via port 4242 and that root login is prohibited via ssh. To implement this measures we'll need to change the /etc/ssh/sshd_config file:
+- Uncomment the line containing `Port 22` and change 22 to 4242.
+- Uncomment the line containing PermitRootLogin and add a `no` to it: `PermitRootLogin no`
