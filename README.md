@@ -238,3 +238,14 @@ define( 'DB_HOST', 'localhost' ); // Example MySQL Database host
 If everything is working, you should be able to use a browser to access a the machine's ip and log on to the wordpress plataform. Now you figure out a way to create your website 
 
 ## 10. (BONUS) Other service - webmin
+The third bonus of this projects ask us to install a service that it is not nginx or apache.  We'll install a service called webmin. This service allows us to monitor our system remotely using a web browser.
+
+First of all, we need to download and execute a script that changes our list of package repositories. To do this, following the instructions in the webmin website, we do (as root):
+
+`curl -o setup-repos.sh https://raw.githubusercontent.com/webmin/webmin/master/setup-repos.sh && sh setup-repos.sh`
+
+Then we do: `sudo apt-get install webmin`
+
+This service uses port 10000 for communication. So we'll have to allow it in our ufw with `sudo ufw allow 10000`.
+
+Now we can use a web browser to navigate to our machine's IP. Since webmin uses port 10000, we must explicitly state it using : in the browser.
