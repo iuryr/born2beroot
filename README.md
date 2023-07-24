@@ -173,10 +173,10 @@ So we'll need to deal with this, since our script must run once every ten minute
 
 To capture the number of minutes of the time of the bootup, we can feed `uptime --since` to awk and select the unit of the minutes number. The following script does this:
 
-`bash
+```bash
 #!/bin/bash
-minutes=\\`uptime --since | awk 'BEGIN {FS="[ :]"} {print $3}' | grep -o .$\`
+minutes=`uptime --since | awk 'BEGIN {FS="[ :]"} {print $3}' | grep -o .$\`
 total_seconds=$((minutes * 60))
 sleep $total_seconds
 source /bin/monitoring.sh | wall
-`
+```
