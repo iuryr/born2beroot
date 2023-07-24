@@ -160,3 +160,23 @@ When we installed our OS in the virtual machine, we already installaed SSH along
 The project's subject requires that SSH only operates via port 4242 and that root login is prohibited via ssh. To implement this measures we'll need to change the /etc/ssh/sshd_config file:
 - Uncomment the line containing `Port 22` and change 22 to 4242.
 - Uncomment the line containing PermitRootLogin and add a `no` to it: `PermitRootLogin no`
+
+## 8. Periodic Script Running
+### 8.1 Setting periodic Jobs
+The subject requires that a script callend monitoring.sh is run every 10 minutes after the system bootup. Before dealing with the script itself, let us tackle the problem of making our system perform a task periodically. To do this, we'll use cronjobs.
+
+Cron is a job scheduler that after consulting adequate crontab files, will perform tasks defined in the file. As we did with sudoers, crontabfile are best not edited directly via a text editor, but using the crontab program with the `-e` flag.
+
+To understand the proper formatting of a crontab file check `man 5 crontab`. Note that crontab files do not deal with intervals. The times set are literal, meaning that the system will match the time set with the system clock. So, if in the first time placeholder we put a 10, this does not mean every 10 minutes, but at the 10th minute of every hour of every day (considering the other time placeholders are all *). It is also possible that cronjob runs a task in each minute that ends with a zero. To do this, we can use the notation */10 in the first time placeholder.
+
+So we'll need to deal with this, since our script must run once every ten minutes. If our system bootup time is 10h23, the script must run até 10h33, 10h43, etc. To implement this, we'll need to _delay_ the execution somehow. Since the cronjob (with the notation */10) will run at every minute ending with zero, we need to delay the execution (in this specifi case) for 3 minutes. So, when we get to 10h30, we can call the program sleep (for 3 minutes) and then execute our required task.
+
+To capture the number of minutes of the time of the bootup, we can feed `uptime --since` to awk and select the unit of the minutes number. The following script does this:
+
+`bash
+#!/bin/bash
+minutes=`uptime --since | awk 'BEGIN {FS="[ :]"} {print $3}' | grep -o .$`
+total_seconds=$((minutes * 60))
+sleep $total_seconds
+source /bin/monitoring.sh | wall
+`
